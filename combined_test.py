@@ -11,15 +11,18 @@ from datetime import datetime
 import time  # At top of file
 
 CHART_DIR = "assets/charts"
-CHART_LINES = [f"line_{i}.png" for i in range(1, 8)]
+CHART_LINES = [f"line_{i}.png" for i in range(1, 11)]  # Now shows 10 lines
 VISION_SCALE = {
-    1: "20/200",
-    2: "20/100",
-    3: "20/70",
-    4: "20/50",
-    5: "20/40",
-    6: "20/30",
-    7: "20/20",
+    1: "10%/100%",
+    2: "20%/100%",
+    3: "30%/100%",
+    4: "40%/100%",
+    5: "50%/100%",
+    6: "60%/100%",
+    7: "70%/100%",
+    8: "80%/100%",
+    9: "90%/100%",
+    10: "100%/100%",
 }
 
 mp_face_mesh = mp.solutions.face_mesh
@@ -214,14 +217,14 @@ def run_test():
     redness_status = ""
     sleep_status = ""
     time_started = time.time()
-    CHART_WORDS = [generate_random_word(i + 1) for i in range(7)]
+    CHART_WORDS = [generate_random_word(i + 1) for i in range(10)]
     CHART_IMAGES = [generate_chart_image(word, idx) for idx, word in enumerate(CHART_WORDS)]
     for idx in range(len(CHART_LINES)):
         chart_img = CHART_IMAGES[idx]
         expected_text = CHART_WORDS[idx]
 
-        scale_factor = 0.25 - (idx * 0.04)
-        scale_factor = max(0.10, scale_factor)
+        scale_factor = 0.6 - (idx * 0.05)
+        scale_factor = max(0.1, scale_factor)
         width = int(chart_img.shape[1] * scale_factor)
         height = int(chart_img.shape[0] * scale_factor)
         chart_img = cv2.resize(chart_img, (width, height))

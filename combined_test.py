@@ -309,8 +309,19 @@ def run_test():
                 cv2.putText(combined, "Please look at the camera", (50, 50), 
                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
             elif collecting_input:
-                cv2.putText(combined, "Type what you see and press Enter", (50, 50), 
-                           cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+                # Draw a semi-transparent background for better visibility
+                text_size = cv2.getTextSize(f"Type: {user_text}", cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0]
+                cv2.rectangle(combined, (40, 80), (60 + text_size[0], 130), (0, 0, 0), -1)
+                cv2.rectangle(combined, (40, 80), (60 + text_size[0], 130), (255, 255, 255), 2)
+                
+                # Display the text
+                cv2.putText(combined, f"Type: {user_text}", (50, 110), 
+                          cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+                
+                # Add a blinking cursor
+                if int(time.time() * 2) % 2 == 0:  # Blink every 0.5 seconds
+                    cursor_x = 50 + cv2.getTextSize(f"Type: {user_text}", cv2.FONT_HERSHEY_SIMPLEX, 1, 2)[0][0]
+                    cv2.line(combined, (cursor_x, 90), (cursor_x, 130), (255, 255, 255), 2)
             else:
                 cv2.putText(combined, "Position detected - Ready to type", (50, 50), 
                            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
